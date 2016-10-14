@@ -13,6 +13,7 @@ use yii\web\IdentityInterface;
  * @property integer $id
  * @property string $username
  * @property string $pass
+ * @property boolean $is_admin
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -31,6 +32,7 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'pass'], 'string', 'max' => 255],
+            ['is_admin', 'boolean']
         ];
     }
 
@@ -72,6 +74,7 @@ class Users extends \yii\db\ActiveRecord
             'id' => 'ID',
             'username' => 'Username',
             'pass' => 'Pass',
+            'is_admin' => 'Is Admin'
         ];
     }
 
