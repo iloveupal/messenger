@@ -63,7 +63,7 @@ class Messages extends \yii\db\ActiveRecord
      */
     public function getParent()
     {
-        return $this->hasOne(Messages::className(), ['id' => 'parent_id'])->inverseOf('messages');
+        return $this->hasOne(MessagesUser::className(), ['id' => 'parent_id']);
     }
 
     /**
@@ -71,7 +71,7 @@ class Messages extends \yii\db\ActiveRecord
      */
     public function getMessages()
     {
-        return $this->hasMany(Messages::className(), ['parent_id' => 'id'])->inverseOf('parent');
+        return $this->hasMany(MessagesUser::className(), ['parent_id' => 'id']);
     }
 
     /**
@@ -79,7 +79,7 @@ class Messages extends \yii\db\ActiveRecord
      */
     public function getReceiver()
     {
-        return $this->hasOne(Users::className(), ['id' => 'receiver_id'])->inverseOf('messages');
+        return $this->hasOne(UserIdentity::className(), ['id' => 'receiver_id']);
     }
 
     /**
@@ -87,6 +87,6 @@ class Messages extends \yii\db\ActiveRecord
      */
     public function getSender()
     {
-        return $this->hasOne(Users::className(), ['id' => 'sender_id'])->inverseOf('messages0');
+        return $this->hasOne(UserIdentity::className(), ['id' => 'sender_id']);
     }
 }

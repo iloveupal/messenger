@@ -31,6 +31,7 @@ class MessagesUser extends Messages
         }
 
         Dialogues::refreshDialogueLastMessage($sender, $receiver, $message->id);
+        MessagesAttachment::AttachNewFiles($message);
     }
 
     public static function getLastConversation(IdentityInterface $one, IdentityInterface $two, $limit = 5)
