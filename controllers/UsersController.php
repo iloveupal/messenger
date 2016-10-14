@@ -8,9 +8,6 @@ use app\controllers\JsonController;
 
 class UsersController extends JsonController
 {
-
-
-
     public function actionDelete()
     {
 

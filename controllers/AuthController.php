@@ -26,15 +26,4 @@ class AuthController extends JsonController
             'token' => $token
         ];
     }
-
-    public function actionProve() {
-
-        return \yii::$app->user->getIdentity();
-
-        $params = Parameters::validate(\yii::$app->request, [
-            'token' => ['is_string', 'not_null']
-        ]);
-
-        return TokensUser::validateToken($params['token']);
-    }
 }
