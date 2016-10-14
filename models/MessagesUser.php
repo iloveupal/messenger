@@ -9,6 +9,7 @@
 namespace app\models;
 
 
+use yii\base\Exception;
 use yii\web\IdentityInterface;
 
 class MessagesUser extends Messages
@@ -22,63 +23,42 @@ class MessagesUser extends Messages
         $latest_message = self::getLatestMessage($receiver, $sender);
 
         $message->parent_id = $latest_message? $latest_message->id: null;
-
         $message->text = $text;
 
-        $message->save();
+        $message_sent_success = $message->save();
+        if (!$message_sent_success || !$message->id) {
+            throw new Exception('could not send message');
+        }
+
+        Dialogues::refreshDialogueLastMessage($sender, $receiver, $message->id);
     }
 
     public static function getLastConversation(IdentityInterface $one, IdentityInterface $two, $limit = 5)
     {
         $latest_message = self::getLatestMessage($one, $two);
-
+        if (!$latest_message) return null;
 
         return $latest_message->getArrayOfNext($limit);
     }
 
     public function getArrayOfNext(int $max) {
         $result = [$this];
-
-
-
         $message_cycle = $this;
         $count = 0;
-
 
         while(($message_cycle = $message_cycle->parent) && (++$count < $max)) {
             $result[]= $message_cycle;
         }
 
         return $result;
-
     }
 
     public static function getLatestMessage(IdentityInterface $one, IdentityInterface $two) {
-        $messagesQuery = new MessagesUser();
-        $scoped = $messagesQuery->scopeConversation($one, $two);
-        $latest_message = $messagesQuery->latest($scoped);
+        $dialogue = Dialogues::findDialogueInstance($one, $two);
+        if (!$dialogue) return null;
 
-        return self::findOne($latest_message);
-    }
+        $latest_message = $dialogue->lastMessage;
 
-    public function scopeConversation(IdentityInterface $one, IdentityInterface $two)
-    {
-        return $this->find()->where(
-            ['and', 'receiver_id = :id2', 'sender_id = :id1'],
-            [
-                'id1' => $one->getId(),
-                'id2' => $two->getId()
-            ]
-        )->orWhere(
-            ['and', 'receiver_id = :id1', 'sender_id = :id2'],
-            [
-                'id1' => $one->getId(),
-                'id2' => $two->getId()
-            ]
-        );
-    }
-
-    public function latest ($query) {
-        return $query->select("max(id)")->scalar();
+        return $latest_message;
     }
 };
