@@ -57,9 +57,6 @@ class ProfilePicture extends BaseUploadFile
 
     public static function GetProfilePicture($image_id, $user_id)
     {
-
-
-
         $profile = Profile::find()->where([
             'profile_image' => $image_id
         ])->orWhere(['user_id'=>$user_id])->one();
