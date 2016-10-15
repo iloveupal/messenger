@@ -42,5 +42,7 @@ class BaseUploadFile extends DynamicModel
             $this->$name->saveAs(\yii::$aliases['@app'] . '/uploads/' . $filename);
             $this->$name->name = $filename;
         }, array_keys($this->attributes));
+
+        return true;
     }
 }

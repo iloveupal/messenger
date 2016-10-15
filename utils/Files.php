@@ -9,6 +9,8 @@
 namespace app\utils;
 
 
+use yii\base\Exception;
+
 class Files
 {
     public static function getUniqueFilename($ts,  $extension) {
@@ -21,6 +23,7 @@ class Files
 
     public static function downloadLink($filename)
     {
+        if (empty($filename)) throw new Exception('no image found');
         return \yii::getAlias('@app') . '/uploads/' . $filename;
     }
 }
