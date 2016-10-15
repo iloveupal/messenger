@@ -34,11 +34,6 @@ class Messages extends \yii\db\ActiveRecord
         return 'messages';
     }
 
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
-    {
-        return parent::toArray($fields, $expand, $recursive);
-    }
-
     public function fields()
     {
         $fields = parent::fields();

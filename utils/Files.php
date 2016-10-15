@@ -18,4 +18,9 @@ class Files
     public static function generateRandomString() {
         return \yii::$app->getSecurity()->generateRandomString(15);
     }
+
+    public static function downloadLink($filename)
+    {
+        return \yii::getAlias('@app') . '/uploads/' . $filename;
+    }
 }
