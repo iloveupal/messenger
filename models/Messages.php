@@ -18,15 +18,33 @@ use Yii;
  * @property Messages[] $messages
  * @property Users $receiver
  * @property Users $sender
+ * @property Attachments $attachments
  */
 class Messages extends \yii\db\ActiveRecord
 {
+
+    public $attachments;
+    public $is_from_admin;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'messages';
+    }
+
+    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    {
+        return parent::toArray($fields, $expand, $recursive);
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['is_from_admin'] = 'is_from_admin';
+        $fields['attachments'] = 'attachments';
+        return $fields;
     }
 
     /**
@@ -40,6 +58,7 @@ class Messages extends \yii\db\ActiveRecord
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Messages::className(), 'targetAttribute' => ['parent_id' => 'id']],
             [['receiver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['receiver_id' => 'id']],
             [['sender_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['sender_id' => 'id']],
+            [['is_from_admin'], 'boolean']
         ];
     }
 
@@ -55,6 +74,8 @@ class Messages extends \yii\db\ActiveRecord
             'receiver_id' => 'Receiver ID',
             'read' => 'Read',
             'parent_id' => 'Parent ID',
+            'attachments' => 'Attachments',
+            'is_from_admin' => 'is from admin'
         ];
     }
 

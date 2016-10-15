@@ -113,4 +113,9 @@ class Attachments extends \yii\db\ActiveRecord
     {
         return self::find()->where(['owner_id' => $user->getId()])->andWhere(['message_id' => null])->all();
     }
+
+    public static function forMessageId($message_id)
+    {
+        return self::find()->where(['message_id' => $message_id])->all();
+    }
 }

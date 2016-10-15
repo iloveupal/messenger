@@ -14,6 +14,12 @@ use yii\web\IdentityInterface;
 
 class MessagesUser extends Messages
 {
+
+    public $attachments;
+    public $is_from_admin;
+
+
+
     public static function createMessage(IdentityInterface $sender, IdentityInterface $receiver, $text)
     {
         $message = new Messages();
@@ -50,6 +56,8 @@ class MessagesUser extends Messages
         while(($message_cycle = $message_cycle->parent) && (++$count < $max)) {
             $result[]= $message_cycle;
         }
+
+        array_map('\app\models\MessagesAggregation::aggregateFromMessage', $result);
 
         return $result;
     }

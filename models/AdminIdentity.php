@@ -25,4 +25,10 @@ class AdminIdentity extends UserIdentity
 
         return $user->save();
     }
+
+    public static function checkIsAdmin ($id)
+    {
+        $user = Users::findOne($id);
+        return $user->is_admin;
+    }
 }

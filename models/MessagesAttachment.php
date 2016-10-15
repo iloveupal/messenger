@@ -11,7 +11,8 @@ namespace app\models;
 
 class MessagesAttachment
 {
-    public static function AttachNewFiles(Messages $message) {
+    public static function AttachNewFiles(Messages $message)
+    {
         $dialogue = Dialogues::findDialogueInstance($message->receiver, $message->sender);
 
         $attachments = Attachments::notUsed($message->sender);
