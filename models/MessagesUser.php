@@ -48,7 +48,8 @@ class MessagesUser extends Messages
         return $latest_message->getArrayOfNext($limit);
     }
 
-    public function getArrayOfNext(int $max) {
+    public function getArrayOfNext($max) {
+        $max = (int) $max;
         $result = [$this];
         $message_cycle = $this;
         $count = 0;
@@ -69,5 +70,27 @@ class MessagesUser extends Messages
         $latest_message = $dialogue->lastMessage;
 
         return $latest_message;
+    }
+
+    public static function getMessagesFromPointer(IdentityInterface $user, $from, $count) {
+        $from = (int) $from;
+        $count = (int) $count;
+        if (!$user) {
+            throw new Exception('unauthorized');
+        }
+
+        $message = self::find()->where([
+            'id' => $from,
+            'sender_id' => $user->getId()
+        ])->orWhere([
+            'id' => $from,
+            'receiver_id' => $user->getId()
+        ])->one();
+
+        if (!$message) {
+            throw new Exception('no message found');
+        }
+
+        return $message->getArrayOfNext($count);
     }
 };

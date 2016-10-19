@@ -46,4 +46,13 @@ class MessagesController extends JsonController
 
         return MessagesUser::getLastConversation($user, $to, $params['count']);
     }
+
+    public function actionFrom() {
+        $params = Parameters::validate(\yii::$app->request, [
+            'id' => ['is_number', 'not_null'],
+            'count' => ['is_number', 'not_null']
+        ]);
+
+        return MessagesUser::getMessagesFromPointer($this->user, $params['id'], $params['count']);
+    }
 }
