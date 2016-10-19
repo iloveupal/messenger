@@ -37,6 +37,7 @@ class MessagesUser extends Messages
         }
 
         Dialogues::refreshDialogueLastMessage($sender, $receiver, $message->id);
+        Notifications::post($receiver);
         MessagesAttachment::AttachNewFiles($message);
     }
 

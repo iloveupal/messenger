@@ -87,8 +87,9 @@ class Dialogues extends \yii\db\ActiveRecord
         ]);
     }
 
-    public static function refreshDialogueLastMessage(IdentityInterface $userA, IdentityInterface $userB, int $messageId)
+    public static function refreshDialogueLastMessage(IdentityInterface $userA, IdentityInterface $userB, $messageId)
     {
+        $messageId = (int) $messageId;
         $dialogue = self::findDialogueInstance($userA, $userB);
         if (!$dialogue) {
             $dialogue = self::createNewDialogue($userA, $userB);

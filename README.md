@@ -84,3 +84,9 @@
 @auth
 @param string filename
 ```
+
+###notifications
+```HTTP
+/notifications/index
+@auth
+```
