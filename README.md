@@ -49,9 +49,8 @@
 
 /messages/from
 @auth
-@param int message_id
+@param int id
 @param int count
-* not implemented yet
 ```
 
 ###dialogues
